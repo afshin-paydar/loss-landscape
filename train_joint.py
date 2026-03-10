@@ -20,6 +20,7 @@ import math
 import time
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import torch.optim as optim
 
 # Add project root to path
@@ -425,9 +426,9 @@ def main():
                         help='comma-separated candidate bit-widths')
 
     # Stage 1: Warm-up
-    parser.add_argument('--warmup_epochs', default=10, type=int)
-    parser.add_argument('--warmup_lr', default=0.005, type=float,
-                        help='small LR to adapt to quantization without losing accuracy')
+    parser.add_argument('--warmup_epochs', default=5, type=int)
+    parser.add_argument('--warmup_lr', default=0.0005, type=float,
+                        help='very small LR to adapt to quantization without losing accuracy')
 
     # Stage 2: Joint search
     parser.add_argument('--joint_epochs', default=100, type=int)
