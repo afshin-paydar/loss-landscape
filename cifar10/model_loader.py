@@ -42,7 +42,7 @@ def load(model_name, model_file=None, data_parallel=False, joint=False, bit_widt
 
     # Optionally wrap with joint pruning + quantization
     if joint:
-        import sys, os
+        import sys
         sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
         from joint_model import PruningQuantizationWrapper
         bw = bit_widths if bit_widths else [2, 4, 8, 16]
