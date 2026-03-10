@@ -37,8 +37,17 @@ models = {
     'wrn110_4_noshort'      : resnet.WRN110_4_noshort,
 }
 
-def load(model_name, model_file=None, data_parallel=False):
+def load(model_name, model_file=None, data_parallel=False, joint=False, bit_widths=None):
     net = models[model_name]()
+
+    # Optionally wrap with joint pruning + quantization
+    if joint:
+        import sys, os
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+        from joint_model import PruningQuantizationWrapper
+        bw = bit_widths if bit_widths else [2, 4, 8, 16]
+        net = PruningQuantizationWrapper(net, bit_widths=bw)
+
     if data_parallel: # the model is saved in data paralle mode
         net = torch.nn.DataParallel(net)
 
